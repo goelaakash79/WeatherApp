@@ -18,7 +18,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView textView = (TextView) findViewById(R.id.textView);
+        final TextView temp = (TextView) findViewById(R.id.temp);
+        final TextView city = (TextView) findViewById(R.id.city);
+        final TextView vis = (TextView) findViewById(R.id.vis);
+        final TextView hum = (TextView) findViewById(R.id.hum);
+        final TextView wind = (TextView) findViewById(R.id.wind);
+        final TextView pres = (TextView) findViewById(R.id.pres);
 
         Interface interface2 = ServiceGenerator.createService(Interface.class);
         Call<Example> call = interface2.requestResponse("London,uk", "b1b15e88fa797225412429c1c50c122a1");
@@ -27,8 +32,19 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Example> call, Response<Example> response) {
                 if (response.code() == 200) {
                     Example pojo = response.body();
+                    Log.e("weather", String.valueOf(pojo.getVisibility()));
+                    Log.e("wind", String.valueOf(pojo.getWind().getSpeed()));
                     Log.e("Coord_Lat", String.valueOf(pojo.getCoord().getLat()));
-                    textView.setText(String.valueOf(pojo.getCoord().getLat()));
+                    city.setText(String.valueOf(pojo.getName()));
+                    temp.setText(String.valueOf(pojo.getMain().getTemp()));
+
+                    vis.setText("Visibility: " + String.valueOf(pojo.getVisibility()));
+                    hum.setText("Humidity: " + String.valueOf(pojo.getMain().getHumidity()));
+
+                    wind.setText("Wind Speed: " + String.valueOf(pojo.getWind().getSpeed()));
+                    pres.setText("Pressure: " + String.valueOf(pojo.getMain().getPressure()));
+                    Log.e("wind", String.valueOf(pojo.getSys().getSunrise()));
+
                 }
             }
 
