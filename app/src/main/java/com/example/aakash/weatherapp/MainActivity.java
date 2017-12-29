@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView textView = (TextView) findViewById(R.id.);
+        final TextView textView = (TextView) findViewById(R.id.textView);
 
         Interface interface2 = ServiceGenerator.createService(Interface.class);
         Call<Example> call = interface2.requestResponse("London,uk", "b1b15e88fa797225412429c1c50c122a1");
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                 if (response.code() == 200) {
                     Example pojo = response.body();
                     Log.e("Coord_Lat", String.valueOf(pojo.getCoord().getLat()));
+                    textView.setText(String.valueOf(pojo.getCoord().getLat()));
                 }
             }
 
